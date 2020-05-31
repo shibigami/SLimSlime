@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 14e27f9d26eade04bba6f6304ef113ce
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - progressbarText: {fileID: 8761365898434065282, guid: 10b4f1a5264ef6e4a84ed4d86a1bfbd9,
+      type: 3}
+  - progressbarImage: {fileID: 5274893207933487373, guid: 78b3fe71aeb54cc41b05e10176e42bf5,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
