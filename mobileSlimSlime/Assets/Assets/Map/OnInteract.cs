@@ -59,42 +59,44 @@ public class OnInteract : MonoBehaviour
         //gather resource and cleanup
         if (timer >= resourceTimer)
         {
-            string item="";
+            int item=0;
             int amount=0;
             //interaction case
             switch (tag)
             {
                 case "Farm":
                     {
-                        GetComponent<ResourceGatheringManager>().GetResourceRoll(out item, out amount);
+                        GetComponent<ResourceGatheringManager>().GetResourceRoll(CharacterJobClass.JobList.Farmer,out item, out amount);
                         player.GetComponent<CharacterStats>().Farming.AddExp(GatheringExpGained);
                         break;
                     }
                 case "Forest":
                     {
-                        GetComponent<ResourceGatheringManager>().GetResourceRoll(out item, out amount);
+                        GetComponent<ResourceGatheringManager>().GetResourceRoll(CharacterJobClass.JobList.WoodCutter,out item, out amount);
                         player.GetComponent<CharacterStats>().WoodCutting.AddExp(GatheringExpGained);
                         break;
                     }
                 case "Mine":
                     {
-                        GetComponent<ResourceGatheringManager>().GetResourceRoll(out item, out amount);
+                        GetComponent<ResourceGatheringManager>().GetResourceRoll(CharacterJobClass.JobList.Miner,out item, out amount);
                         player.GetComponent<CharacterStats>().Mining.AddExp(GatheringExpGained);
                         break;
                     }
                 case "River":
                     {
-                        GetComponent<ResourceGatheringManager>().GetResourceRoll(out item, out amount);
+                        GetComponent<ResourceGatheringManager>().GetResourceRoll(CharacterJobClass.JobList.Fisherman,out item, out amount);
                         player.GetComponent<CharacterStats>().Fishing.AddExp(GatheringExpGained);
                         break;
                     }
                 case "Chest":
                     {
-                        GetComponent<ResourceGatheringManager>().GetResourceRoll(out item, out amount);
+                        GetComponent<ResourceGatheringManager>().GetResourceRoll(CharacterJobClass.JobList.None,out item, out amount);
                         break;
                     }
                 case "Monster":
                     {
+                        //fade
+                        GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadePanel>().Fade(1f);
                         //show window
                         GameObject.FindGameObjectWithTag("FightWindow").GetComponent<ShowHideWindow>().showHide = true;
                         //start fight state
@@ -104,7 +106,8 @@ public class OnInteract : MonoBehaviour
                     }
                 case "Boss":
                     {
-                        //set enemy
+                        //fade
+                        GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadePanel>().Fade(1.5f);
                         //show window
                         GameObject.FindGameObjectWithTag("FightWindow").GetComponent<ShowHideWindow>().showHide = true;
                         //start fight state
@@ -113,10 +116,10 @@ public class OnInteract : MonoBehaviour
                         break;
                     }
             }
-            if (item != "")
+            if (amount!=0)
             {
                 //add to inventory
-                InventorySystem.AddItem(item, amount);
+                player.GetComponent<InventorySystem>().AddItem(item, amount);
                 //take ap
                 player.GetComponent<CharacterStats>().actionPointsCurent --;
             }

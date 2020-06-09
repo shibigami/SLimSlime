@@ -47,10 +47,10 @@ public class CharacterStats : MonoBehaviour
         baseStats.ChangeStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Neutral, 1);
 
         //gathering levels
-        Farming = new CharacterJobClass("Farming", 1,20);
-        Fishing = new CharacterJobClass("Fishing", 1,20);
-        Mining = new CharacterJobClass("Mining", 1,20);
-        WoodCutting = new CharacterJobClass("WoodCutting", 1,20);
+        Farming = new CharacterJobClass("Farming", 1,20,1,3);
+        Fishing = new CharacterJobClass("Fishing", 1,20,1,3);
+        Mining = new CharacterJobClass("Mining", 1,20, 1, 3);
+        WoodCutting = new CharacterJobClass("WoodCutting", 1,20, 1, 3);
 
         //modified stats
         actionPointsCurent = baseStats.actionPoints;

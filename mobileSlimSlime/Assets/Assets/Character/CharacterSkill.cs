@@ -26,7 +26,7 @@ public class CharacterSkill
     private int totalDamage, percentDamage;
 
     //passive or active
-    public bool _passive,_unlocked;
+    public bool _passive,_unlocked,_alchemy;
 
     //unlock requirements
     public Requirements unlockRequirements;
@@ -64,6 +64,8 @@ public class CharacterSkill
         }
         AdjustSkillBonus();
         _element=element;
+
+        _alchemy = false;
     }
     public CharacterSkill(string name, string effectDescription, int level, int expToLevelUp,int maxLvl, DictionaryHolder.element element)
     {
@@ -91,6 +93,8 @@ public class CharacterSkill
         }
         AdjustSkillBonus();
         _element=element;
+
+        _alchemy = false;
     }
     public CharacterSkill(string name, string effectDescription, int expToLevelUp,int maxLvl, int spcost, DictionaryHolder.element element,string _comboString)
     {
@@ -119,6 +123,8 @@ public class CharacterSkill
         AdjustSkillBonus();
         _element=element;
         comboStr = _comboString;
+
+        _alchemy = false;
     }
     public CharacterSkill(string name, string effectDescription, int level, int expToLevelUp,int maxLvl, int spcost, DictionaryHolder.element element,string _comboString)
     {
@@ -147,6 +153,8 @@ public class CharacterSkill
         AdjustSkillBonus();
         _element=element;
         comboStr = _comboString;
+
+        _alchemy = false;
     }
     
     // Start is called before the first frame update
@@ -161,14 +169,12 @@ public class CharacterSkill
     void Update()
     {
         //triggers passive switch
-        if (comboStr == "")
-        {
-            _passive = true;
-        }
-        else
-        {
-            _passive = false;
-        }
+        if (comboStr == "") _passive = true;
+        else _passive = false;
+
+        //triggers unlock switch
+        if (_level <= 0) _unlocked = false;
+        else _unlocked = true;
 
         //adjusts skill when max _lvl
         if (_level >= _maxLevel) { _level = _maxLevel; expPerLevel = 0; }
@@ -185,6 +191,10 @@ public class CharacterSkill
     public int CurrentLevel()
     {
         return _level;
+    }
+    public int MaxLevel()
+    {
+        return _maxLevel;
     }
     public void AddSkillStat(DictionaryHolder.statType statType, DictionaryHolder.element element, int _perLevelValue)
     {
@@ -207,7 +217,7 @@ public class CharacterSkill
         //regular skill increase
         if (_level < _maxLevel) statsCurrent = DictionaryHolder.MergeStats(statsBase, statsPerLevel, _level);
         //max level bonus increase (current bonus x2)
-        else statsCurrent = DictionaryHolder.MergeStats(statsBase, DictionaryHolder.MergeStats(statsPerLevel, statsPerLevel));
+        else statsCurrent = DictionaryHolder.MergeStats(statsBase, DictionaryHolder.MergeStats(statsPerLevel, statsPerLevel),_maxLevel);
     }
     public int Damage(DictionaryHolder.element element)
     {
@@ -321,6 +331,6 @@ public class CharacterSkill
     }
     public void Unlock()
     {
-        if (CurrentLevel() == 0) { _level = 1; }
+        if (CurrentLevel() == 0) { _level = 1; _unlocked = true; }
     }
 }

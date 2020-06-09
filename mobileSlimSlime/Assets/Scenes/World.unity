@@ -128,16 +128,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 393956035956615131, guid: 239fc67d47cda754cb75e7528b2e62f6,
-        type: 3}
-      propertyPath: mapSize
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 393956035956615131, guid: 239fc67d47cda754cb75e7528b2e62f6,
-        type: 3}
-      propertyPath: difficulty
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6552966368957803014, guid: 239fc67d47cda754cb75e7528b2e62f6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -198,6 +188,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneManager
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6776270820606415585, guid: 239fc67d47cda754cb75e7528b2e62f6, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 239fc67d47cda754cb75e7528b2e62f6, type: 3}

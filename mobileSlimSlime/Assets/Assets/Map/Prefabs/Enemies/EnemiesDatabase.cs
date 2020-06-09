@@ -453,4 +453,112 @@ public static class EnemiesDatabase
         name = enemy.ToString();
         return name;
     }
+    public static DictionaryHolder.element GetElement(enemy enemy)
+    {
+        DictionaryHolder.element temp = DictionaryHolder.element.Neutral;
+        switch (enemy)
+        {
+            case enemy.Fish:
+                {
+                    temp = DictionaryHolder.element.Water;
+                    break;
+                }
+            case enemy.Lizzard:
+                {
+                    temp = DictionaryHolder.element.Earth;
+                    break;
+                }
+            case enemy.Cat:
+                {
+                    temp = DictionaryHolder.element.Dark;
+                    break;
+                }
+            case enemy.Scorpion:
+                {
+                    temp = DictionaryHolder.element.Fire;
+                    break;
+                }
+            case enemy.Slime:
+                {
+                    temp = DictionaryHolder.element.Neutral;
+                    break;
+                }
+            case enemy.Fox:
+                {
+                    temp = DictionaryHolder.element.Wind;
+                    break;
+                }
+            case enemy.Boar:
+                {
+                    temp = DictionaryHolder.element.Earth;
+                    break;
+                }
+            case enemy.Wolf:
+                {
+                    temp = DictionaryHolder.element.Dark;
+                    break;
+                }
+            case enemy.Bear:
+                {
+                    temp = DictionaryHolder.element.Light;
+                    break;
+                }
+            case enemy.Goblin:
+                {
+                    temp = DictionaryHolder.element.Dark;
+                    break;
+                }
+            case enemy.LandFish:
+                {
+                    temp = DictionaryHolder.element.Fire;
+                    break;
+                }
+            case enemy.LizardMan:
+                {
+                    temp = DictionaryHolder.element.Neutral;
+                    break;
+                }
+            case enemy.Eagle:
+                {
+                    temp = DictionaryHolder.element.Wind;
+                    break;
+                }
+            case enemy.Kappa:
+                {
+                    temp = DictionaryHolder.element.Water;
+                    break;
+                }
+            case enemy.ArmoredBoar:
+                {
+                    temp = DictionaryHolder.element.Neutral;
+                    break;
+                }
+            case enemy.Pixie:
+                {
+                    temp = DictionaryHolder.element.Light;
+                    break;
+                }
+            case enemy.FireFox:
+                {
+                    temp = DictionaryHolder.element.Fire;
+                    break;
+                }
+            case enemy.Frog:
+                {
+                    temp = DictionaryHolder.element.Water;
+                    break;
+                }
+            case enemy.Panda:
+                {
+                    temp = DictionaryHolder.element.Light;
+                    break;
+                }
+            case enemy.Golem:
+                {
+                    temp = DictionaryHolder.element.Dark;
+                    break;
+                }
+        }
+        return temp;
+    }
 }

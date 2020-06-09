@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     private EnemiesDatabase.enemy type;
     private string _name;
     private int healthMax, healthCurrent, spellPointsCurrent, spellPointsMax, expGiven;
+    private DictionaryHolder.element element;
 
     //enemy stats
     public DictionaryHolder statsCurrent,statsBase;
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
         statsBase = new DictionaryHolder();
         statsCurrent = new DictionaryHolder();
         statsBase = EnemiesDatabase.EnemyStats(enemyType);
+        element = EnemiesDatabase.GetElement(enemyType);
         statsCurrent = statsBase;
         healthMax = statsCurrent.health;
         healthCurrent = healthMax;
@@ -41,6 +43,10 @@ public class Enemy : MonoBehaviour
     public string GetEnemyName()
     {
         return _name;
+    }
+    public DictionaryHolder.element GetElement()
+    {
+        return element;
     }
     public EnemiesDatabase.enemy GetEnemyType()
     {

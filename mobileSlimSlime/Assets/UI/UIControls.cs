@@ -171,6 +171,11 @@ public class UIControls : MonoBehaviour
         if (colliders[1].tag == "SkillUnlockStation") return true;
         else return false;
     }
+    public bool IsNearAlchemyStation()
+    {
+        if (colliders[1].tag == "AlchemyStation") return true;
+        else return false;
+    }
     public void IncreaseMapSize()
     {
         StoryProgressionManager.IncrementMapSize(1);
@@ -183,5 +188,9 @@ public class UIControls : MonoBehaviour
     {
         increaseMapButton.GetComponent<Button>().interactable=((StoryProgressionManager.GetMapSize() + 1 > StoryProgressionManager.GetMapSizeMaxUnlocked()) ? false : true);
         decreaseMapButton.GetComponent<Button>().interactable = ((StoryProgressionManager.GetMapSize() - 1 <=0) ? false : true);
+    }
+    public void ReturnHome()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>().actionPointsCurent = 0;
     }
 }

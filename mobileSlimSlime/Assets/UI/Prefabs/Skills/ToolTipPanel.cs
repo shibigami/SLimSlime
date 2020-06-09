@@ -193,7 +193,7 @@ public class ToolTipPanel : MonoBehaviour
         #endregion
 
         //decrease and increase exp buttons
-        increaseLevel.interactable = ((GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>().expPoolCurrent >= skill.LevelExp()) ? true : false);
+        increaseLevel.interactable = (((GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>().expPoolCurrent >= skill.LevelExp()) && (skill.CurrentLevel() < skill.MaxLevel()) && (!skill._alchemy)) ? true : false);
 
         //exp
         _exp.text = (string.Format("{0}", skill.LevelExp().ToString()));

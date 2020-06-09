@@ -37,6 +37,9 @@ TagManager:
   - SkillsView
   - SkillsToolTip
   - SkillUnlockStation
+  - AlchemyStation
+  - AlchemyPanel
+  - FadePanel
   layers:
   - Default
   - TransparentFX

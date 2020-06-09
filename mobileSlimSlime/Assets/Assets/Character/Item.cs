@@ -6,25 +6,25 @@ using UnityEngine.UI;
 public class Item
 {
     private string _name;
-    private int _amount;
-    private GameObject _icon;
+    private int _amount,_rarity;
 
     public Item(string name)
     {
         _name = name;
+        _amount = 0;
+        _rarity = 0;
     }
-
     public Item(string name, int amount)
     {
         _name = name;
         _amount = amount;
+        _rarity = 0;
     }
-
-    public Item(string name, int amount, GameObject icon)
+    public Item(string name, int amount,int rarity)
     {
         _name = name;
         _amount = amount;
-        _icon = icon;
+        _rarity = rarity;
     }
 
     // Start is called before the first frame update
@@ -39,23 +39,29 @@ public class Item
         
     }
 
-    public string GetName()
+    public string GetBaseName()
     {
         return _name;
     }
-
+    public string GetName()
+    {
+        if (_rarity == 0) return _name;
+        else return _name+_rarity;
+    }
     public void AddAmount(int amount)
     {
         _amount += amount;
     }
-
+    public void TakeAmount(int amount)
+    {
+        _amount -= amount;
+    }
     public int GetAmount()
     {
         return _amount;
     }
-
-    public GameObject GetIcon()
+    public int GetRarity()
     {
-        return _icon;
+        return _rarity;
     }
 }

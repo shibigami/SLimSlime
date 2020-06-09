@@ -61,4 +61,4 @@ MonoBehaviour:
   - {fileID: 5048657237249044067, guid: 1d80199d37330e34e8e972a217f02e99, type: 3}
   - {fileID: 2014438291890451041, guid: ef946860dd5ace24a894dcf79b7f946e, type: 3}
   - {fileID: 1586816770591704762, guid: 438608e098f7fba4690f47a34fd6f0af, type: 3}
-  difficulty: 10
+  - {fileID: 6609508779490737568, guid: d24ec9e86e5f7c2409676c0df7baf7aa, type: 3}

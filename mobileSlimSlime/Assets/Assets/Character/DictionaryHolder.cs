@@ -170,7 +170,7 @@ public class DictionaryHolder
                 }
             case statType.ElementSlots:
                 {
-                    elementSlots = statValue;
+                    elementSlots = Mathf.Clamp(statValue,0,7);
                     break;
                 }
         }

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class CharacterSkillTree : MonoBehaviour
 {
-    private List<CharacterSkill> passiveSkills,availablePassiveSkills,availableActiveSkills;
-    public List<CharacterSkill> activeSkills;
+    private List<CharacterSkill> availablePassiveSkills,availableActiveSkills;
+    public List<CharacterSkill> passiveSkills,activeSkills;
     public List<GameObject> passiveSkillButtons, activeSkillButtons;
     public GameObject skillButton;
     private bool showingCur, showingOld;
@@ -34,6 +34,10 @@ public class CharacterSkillTree : MonoBehaviour
         //skill lists need to be filled from fire to neutral and from 1 slot up to 7
         //skill lists need to be fully filled per slot - all 1 slots>all 2 slots>all 3 slots>etc..
 
+        //skills need to be added first
+        //and then add the stats - default at all 0
+        //and add requirements - default at 0
+
         #region passives
 
         //Element Discharge - dictates the amount of element slots a player can have during battle
@@ -51,30 +55,37 @@ public class CharacterSkillTree : MonoBehaviour
         //Moe - adds fire damage
         passiveSkills.Add(new CharacterSkill("Moeh", "Heat up with burning passion.", 0, 100, 20, DictionaryHolder.element.Fire));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Fire, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.FireEnemies, 20);
 
         //Sweat - adds water damage
         passiveSkills.Add(new CharacterSkill("Sweat", "Sweat from non-existant sweat glands.", 0, 100,20, DictionaryHolder.element.Water));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Water, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WaterEnemies, 20);
 
         //Stone finger - adds earth damage
         passiveSkills.Add(new CharacterSkill("Stone finger", "Hardens that slime finger.", 0, 100, 20, DictionaryHolder.element.Earth));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage,DictionaryHolder.element.Earth, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.EarthEnemies, 20);
 
         //B.O. - adds wind damage
         passiveSkills.Add(new CharacterSkill("B.O.", "Emanate some B.O..", 0, 100, 20, DictionaryHolder.element.Wind));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Wind, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WindEnemies, 20);
 
         //Glow - adds light damage
         passiveSkills.Add(new CharacterSkill("Glow", "You look radiant.", 0, 100, 20, DictionaryHolder.element.Light));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Light, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.LightEnemies, 20);
 
         //Tan - adds dark damage
         passiveSkills.Add(new CharacterSkill("Tan", "Darkened with light.", 0, 100, 20, DictionaryHolder.element.Dark));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Dark, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.DarkEnemies, 20);
 
         //Slimy - adds neutral damage
-        passiveSkills.Add(new CharacterSkill("Slimy", "Just slightly more viscous.", 1, 100, 20, DictionaryHolder.element.Neutral));
+        passiveSkills.Add(new CharacterSkill("Slimy", "Just slightly more viscous.", 0, 100, 20, DictionaryHolder.element.Neutral));
         passiveSkills[passiveSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Neutral, 1);
+        passiveSkills[passiveSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.NeutralEnemies, 20);
 
         #endregion
 
@@ -85,26 +96,32 @@ public class CharacterSkillTree : MonoBehaviour
         //Spark - 1 slot fire attack
         activeSkills.Add(new CharacterSkill("Spark", "Basic fire magic.", 0, 10,10,1, DictionaryHolder.element.Fire, "1"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage,DictionaryHolder.element.Fire,1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.FireEnemies,10);
 
         //Droplet - 1 slot water attack
         activeSkills.Add(new CharacterSkill("Droplet", "Basic water magic.", 0, 10, 10, 1, DictionaryHolder.element.Water, "2"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Water, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WaterEnemies, 10);
 
         //Stone - 1 slot earth attack
         activeSkills.Add(new CharacterSkill("Stone", "Basic earth magic.", 0, 10, 10, 1, DictionaryHolder.element.Earth, "3"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Earth, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.EarthEnemies, 10);
 
         //Blow - 1 slot wind attack
         activeSkills.Add(new CharacterSkill("Blow", "Basic wind magic.", 0, 10, 10, 1, DictionaryHolder.element.Wind, "4"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Wind, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WindEnemies, 10);
 
         //Flash - 1 slot light attack
         activeSkills.Add(new CharacterSkill("Flash", "Basic light magic.", 0, 10, 10, 1, DictionaryHolder.element.Light, "5"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Light, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.LightEnemies, 10);
 
         //Shadow - 1 slot dark attack
         activeSkills.Add(new CharacterSkill("Shadow", "Basic dark magic.", 0, 10, 10, 1, DictionaryHolder.element.Dark, "6"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Dark, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.DarkEnemies, 10);
 
         //Whip - 1 slot neutral attack
         activeSkills.Add(new CharacterSkill("Whip", "Basic neutral magic.", 1, 10, 10, 1, DictionaryHolder.element.Neutral, "7"));
@@ -116,40 +133,51 @@ public class CharacterSkillTree : MonoBehaviour
         //Ember - 2 slot fire attack
         activeSkills.Add(new CharacterSkill("Ember", "Less basic fire magic.", 0, 10, 20, 1, DictionaryHolder.element.Fire, "11"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Fire, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.FireEnemies, 30);
 
         //Fire Force - 2 slot fire attack
         activeSkills.Add(new CharacterSkill("Fire Force", "A fiery push.", 0, 10, 20, 1, DictionaryHolder.element.Fire, "17"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Fire, 1);
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Neutral, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.FireEnemies, 20);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.NeutralEnemies, 20);
 
         //Puddle - 2 slot water attack
         activeSkills.Add(new CharacterSkill("Puddle", "Less basic water magic.", 0, 10, 20, 1, DictionaryHolder.element.Water, "22"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Water, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WaterEnemies, 30);
 
         //Rock - 2 slot earth attack
         activeSkills.Add(new CharacterSkill("Rock", "Less basic earth magic.", 0, 10, 20, 1, DictionaryHolder.element.Earth, "33"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Earth, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.EarthEnemies, 30);
 
         //Pass the gas - 2 slot wind attack
         activeSkills.Add(new CharacterSkill("Pass the gas", "Less basic wind magic.", 0, 10, 20, 1, DictionaryHolder.element.Wind, "44"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Wind, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WindEnemies, 30);
 
         //Reflection - 2 slot light attack
         activeSkills.Add(new CharacterSkill("Reflection", "Less basic light magic.", 0, 10, 20, 1, DictionaryHolder.element.Light, "55"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Light, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.LightEnemies, 30);
 
         //Darken - 2 slot dark attack
         activeSkills.Add(new CharacterSkill("Darken", "Less basic dark magic.", 0, 10, 20, 1, DictionaryHolder.element.Dark, "66"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Dark, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.DarkEnemies, 30);
 
         //Scorched shadow - 2 slot dark attack
         activeSkills.Add(new CharacterSkill("Scorched shadow", "Where did it get that tan?", 0, 10, 20, 1, DictionaryHolder.element.Dark, "61"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Dark, 1);
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Fire, 1);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.DarkEnemies, 20);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.FireEnemies, 20);
 
         //Slash - 2 slot neutral attack
         activeSkills.Add(new CharacterSkill("Slash", "Less basic neutral magic.", 0, 10, 20, 1, DictionaryHolder.element.Neutral, "77"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Neutral, 2);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.NeutralEnemies, 30);
 
         #endregion
         #region 3Slots
@@ -157,30 +185,37 @@ public class CharacterSkillTree : MonoBehaviour
         //Ball of fire - 3 slot fire attack
         activeSkills.Add(new CharacterSkill("Ball of fire", "Even less basic fire magic.", 0, 10, 30, 1, DictionaryHolder.element.Fire, "111"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Fire, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.FireEnemies, 75);
 
         //Spit - 3 slot water attack
         activeSkills.Add(new CharacterSkill("Spit", "Even less basic water magic.", 0, 10, 30, 1, DictionaryHolder.element.Water, "222"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Water, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WaterEnemies, 75);
 
         //Boulder - 3 slot earth attack
         activeSkills.Add(new CharacterSkill("Boulder", "Even less basic earth magic.", 0, 10, 30, 1, DictionaryHolder.element.Earth, "333"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Earth, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.EarthEnemies, 75);
 
         //Breeze - 3 slot wind attack
         activeSkills.Add(new CharacterSkill("Breeze", "Even less basic wind magic.", 0, 10, 30, 1, DictionaryHolder.element.Wind, "444"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Wind, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.WindEnemies, 75);
 
         //Light string - 3 slot light attack
         activeSkills.Add(new CharacterSkill("Light string", "Even less basic light magic.", 0, 10, 30, 1, DictionaryHolder.element.Light, "555"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Light, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.LightEnemies, 75);
 
         //Darkened shadow - 3 slot dark attack
         activeSkills.Add(new CharacterSkill("Darkened shadow", "Even less basic dark magic.", 0, 10, 30, 1, DictionaryHolder.element.Dark, "666"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Dark, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.DarkEnemies, 75);
 
         //Boke - 3 slot neutral attack
         activeSkills.Add(new CharacterSkill("Bokeh", "Even less basic neutral magic.", 0, 10, 30, 1, DictionaryHolder.element.Neutral, "777"));
         activeSkills[activeSkills.Count - 1].AddSkillStat(DictionaryHolder.statType.Damage, DictionaryHolder.element.Neutral, 3);
+        activeSkills[activeSkills.Count - 1].unlockRequirements.AddRequirement(Requirements.Triggers.NeutralEnemies, 75);
 
         #endregion
 

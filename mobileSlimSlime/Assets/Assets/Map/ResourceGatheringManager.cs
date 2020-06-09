@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ResourceGatheringManager : MonoBehaviour
 {
-    private string resourceName;
-    public int minAmount,maxAmount;
+    private int resourceId;
 
     // Start is called before the first frame update
     void Start()
@@ -13,7 +12,7 @@ public class ResourceGatheringManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void GetResourceRarity()
+    private void GetResourceID()
     {
         var charStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
 
@@ -21,40 +20,7 @@ public class ResourceGatheringManager : MonoBehaviour
         {
             case "Chest":
                 {
-                    resourceName = "Gold";
-                    break;
-                }
-            case "Farm":
-                {
-                    switch (charStats.Farming.GetLevel())
-                    {
-                        case var lvl when lvl < 10:
-                            {
-                                resourceName = "Wheat *";
-                                break;
-                            }
-                        case var lvl when lvl >=10 && lvl<20:
-                            {
-                                resourceName = "Wheat **";
-                                break;
-                            }
-                        case var lvl when lvl >= 20 && lvl < 30:
-                            {
-                                resourceName = "Wheat ***";
-                                break;
-                            }
-                        case var lvl when lvl >= 30 && lvl < 40:
-                            {
-                                resourceName = "Wheat ****";
-                                break;
-                            }
-                        case var lvl when lvl >= 40:
-                            {
-                                resourceName = "Wheat *****";
-                                break;
-                            }
-                    }
-
+                    resourceId = 0;
                     break;
                 }
             case "River":
@@ -63,60 +29,27 @@ public class ResourceGatheringManager : MonoBehaviour
                     {
                         case var lvl when lvl < 10:
                             {
-                                resourceName = "Fish *";
+                                resourceId = 1;
                                 break;
                             }
                         case var lvl when lvl >= 10 && lvl < 20:
                             {
-                                resourceName = "Fish **";
+                                resourceId = 2;
                                 break;
                             }
                         case var lvl when lvl >= 20 && lvl < 30:
                             {
-                                resourceName = "Fish ***";
+                                resourceId = 3;
                                 break;
                             }
                         case var lvl when lvl >= 30 && lvl < 40:
                             {
-                                resourceName = "Fish ****";
+                                resourceId = 4;
                                 break;
                             }
                         case var lvl when lvl >= 40:
                             {
-                                resourceName = "Fish *****";
-                                break;
-                            }
-                    }
-
-                    break;
-                }
-            case "Mine":
-                {
-                    switch (charStats.Mining.GetLevel())
-                    {
-                        case var lvl when lvl < 10:
-                            {
-                                resourceName = "Iron *";
-                                break;
-                            }
-                        case var lvl when lvl >= 10 && lvl < 20:
-                            {
-                                resourceName = "Iron **";
-                                break;
-                            }
-                        case var lvl when lvl >= 20 && lvl < 30:
-                            {
-                                resourceName = "Iron ***";
-                                break;
-                            }
-                        case var lvl when lvl >= 30 && lvl < 40:
-                            {
-                                resourceName = "Iron ****";
-                                break;
-                            }
-                        case var lvl when lvl >= 40:
-                            {
-                                resourceName = "Iron *****";
+                                resourceId = 5;
                                 break;
                             }
                     }
@@ -129,27 +62,93 @@ public class ResourceGatheringManager : MonoBehaviour
                     {
                         case var lvl when lvl < 10:
                             {
-                                resourceName = "Wood *";
+                                resourceId = 6;
                                 break;
                             }
                         case var lvl when lvl >= 10 && lvl < 20:
                             {
-                                resourceName = "Wood **";
+                                resourceId = 7;
                                 break;
                             }
                         case var lvl when lvl >= 20 && lvl < 30:
                             {
-                                resourceName = "Wood ***";
+                                resourceId = 8;
                                 break;
                             }
                         case var lvl when lvl >= 30 && lvl < 40:
                             {
-                                resourceName = "Wood ****";
+                                resourceId = 9;
                                 break;
                             }
                         case var lvl when lvl >= 40:
                             {
-                                resourceName = "Wood *****";
+                                resourceId = 10;
+                                break;
+                            }
+                    }
+
+                    break;
+                }
+            case "Mine":
+                {
+                    switch (charStats.Mining.GetLevel())
+                    {
+                        case var lvl when lvl < 10:
+                            {
+                                resourceId = 11;
+                                break;
+                            }
+                        case var lvl when lvl >= 10 && lvl < 20:
+                            {
+                                resourceId = 12;
+                                break;
+                            }
+                        case var lvl when lvl >= 20 && lvl < 30:
+                            {
+                                resourceId = 13;
+                                break;
+                            }
+                        case var lvl when lvl >= 30 && lvl < 40:
+                            {
+                                resourceId = 14;
+                                break;
+                            }
+                        case var lvl when lvl >= 40:
+                            {
+                                resourceId = 15;
+                                break;
+                            }
+                    }
+
+                    break;
+                }
+            case "Farm":
+                {
+                    switch (charStats.Farming.GetLevel())
+                    {
+                        case var lvl when lvl < 10:
+                            {
+                                resourceId = 16;
+                                break;
+                            }
+                        case var lvl when lvl >=10 && lvl<20:
+                            {
+                                resourceId = 17;
+                                break;
+                            }
+                        case var lvl when lvl >= 20 && lvl < 30:
+                            {
+                                resourceId = 18;
+                                break;
+                            }
+                        case var lvl when lvl >= 30 && lvl < 40:
+                            {
+                                resourceId = 19;
+                                break;
+                            }
+                        case var lvl when lvl >= 40:
+                            {
+                                resourceId = 20;
                                 break;
                             }
                     }
@@ -159,10 +158,44 @@ public class ResourceGatheringManager : MonoBehaviour
         }
     }
 
-    public void GetResourceRoll(out string resourcename,out int resourceamount)
+    public void GetResourceRoll(CharacterJobClass.JobList job,out int resourceID,out int resourceamount)
     {
-        GetResourceRarity();
-        resourcename = resourceName;
-        resourceamount = Random.Range(minAmount, maxAmount+1);
+        CharacterStats player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+        GetResourceID();
+        resourceID = resourceId;
+
+        switch (job)
+        {
+            case CharacterJobClass.JobList.Farmer:
+                {
+                    resourceamount = Random.Range(player.Farming.GetMinGather(), player.Farming.GetMaxGather() + 1);
+                    break;
+                }
+            case CharacterJobClass.JobList.Fisherman:
+                {
+                    resourceamount = Random.Range(player.Fishing.GetMinGather(), player.Fishing.GetMaxGather() + 1);
+                    break;
+                }
+            case CharacterJobClass.JobList.Miner:
+                {
+                    resourceamount = Random.Range(player.Mining.GetMinGather(), player.Mining.GetMaxGather() + 1);
+                    break;
+                }
+            case CharacterJobClass.JobList.WoodCutter:
+                {
+                    resourceamount = Random.Range(player.WoodCutting.GetMinGather(), player.WoodCutting.GetMaxGather() + 1);
+                    break;
+                }
+            case CharacterJobClass.JobList.None:
+                {
+                    resourceamount = 1;
+                    break;
+                }
+            default:
+                {
+                    resourceamount = 0;
+                    break;
+                }
+        }
     }
 }

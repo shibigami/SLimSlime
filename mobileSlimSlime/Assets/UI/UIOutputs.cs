@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIOutputs : MonoBehaviour
 {
     public Text actionPoints, gold, playerName, expPool,minerExpLabel,lumberjackExpLabel,fisherExpLabel,farmerExpLabel,
         miner,lumber,fisher,farmer,stats1,stats2,stats3,stats4,doorSize,clock;
-    public GameObject expBar,minerExpBar,lumberjackExpBar,fisherExpBar,farmerExpBar,doorLabel,skillUnlockStationLabel;
+    public GameObject expBar,minerExpBar,lumberjackExpBar,fisherExpBar,farmerExpBar,doorButton,skillUnlockStationButton,skillUnlockStationPanel,alchemyButton,alchemyPanel,
+        escapeButton;
     private GameObject player;
     private CharacterStats playerStats;
 
@@ -45,25 +47,39 @@ public class UIOutputs : MonoBehaviour
         actionPoints.text = "AP:" + GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>().actionPointsCurent.ToString();
 
         //clock
-        clock.text = string.Format("{0}Y {1}M {2}D {3}H",StoryProgressionManager.GetTimeYears(),StoryProgressionManager.GetTimeMonths(),StoryProgressionManager.GetTimeDays(),StoryProgressionManager.GetCurrentTimeHours());
+        clock.text = string.Format("{0}Y {1}M {2}D {3}H", StoryProgressionManager.GetTimeYears(), StoryProgressionManager.GetTimeMonths(), StoryProgressionManager.GetTimeDays(), StoryProgressionManager.GetCurrentTimeHours());
+
+        //escape button
+        if ((SceneManager.GetActiveScene().name == "Home")||(GameObject.FindGameObjectWithTag("FightWindow").GetComponent<FightManager>().GetFightState()!=FightManager.FightFlow.OutsideFight))
+        {
+            escapeButton.SetActive(false);
+        }
+        else escapeButton.SetActive(true);
 
         //door size
         if (GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIControls>().IsNearDoor())
         {
-            doorLabel.SetActive(true);
+            doorButton.SetActive(true);
             doorSize.text = StoryProgressionManager.GetMapSize().ToString();
         }
-        else doorLabel.SetActive(false);
+        else doorButton.SetActive(false);
 
         //skill Unlock Interface
         if (GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIControls>().IsNearSkillUnlockStation())
         {
-            skillUnlockStationLabel.SetActive(true);
+            skillUnlockStationButton.SetActive(true);
         }
-        else skillUnlockStationLabel.SetActive(false);
+        else { skillUnlockStationButton.SetActive(false); skillUnlockStationPanel.SetActive(false); skillUnlockStationButton.GetComponent<ShowHideWindow>().showHide = false; }
+
+        //alchemy Interface
+        if (GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIControls>().IsNearAlchemyStation())
+        {
+            alchemyButton.SetActive(true);
+        }
+        else { alchemyButton.SetActive(false); alchemyPanel.SetActive(false); alchemyButton.GetComponent<ShowHideWindow>().showHide = false; }
 
         //gold
-        gold.text = InventorySystem.items[0].GetAmount().ToString();
+        gold.text = player.GetComponent<InventorySystem>().itemList[0].GetAmount().ToString();
         //player name
         playerName.text = player.GetComponent<CharacterStats>().playerName;
         //exp

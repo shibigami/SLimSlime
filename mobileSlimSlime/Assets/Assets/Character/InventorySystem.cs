@@ -8,50 +8,41 @@ using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
-    public static List<Item> items;
-
-    public List<GameObject> iconsList=new List<GameObject>();
+    public Dictionary<int, Item> itemList; 
 
     // Start is called before the first frame update
     void Start()
     {
-        items = new List<Item>();
+        itemList = new Dictionary<int, Item>();
 
         //inventory setup
         //any new item created must be added to this list
-        items = new List<Item>();
-        items.Add(new Item("Gold", 0, iconsList[0]));
-        items.Add(new Item("Fish *",0,iconsList[1]));
-        items.Add(new Item("Fish **", 0, iconsList[2]));
-        items.Add(new Item("Fish ***", 0, iconsList[3]));
-        items.Add(new Item("Fish ****", 0, iconsList[4]));
-        items.Add(new Item("Fish *****", 0, iconsList[5]));
-        items.Add(new Item("Wood *", 0, iconsList[6]));
-        items.Add(new Item("Wood **", 0, iconsList[7]));
-        items.Add(new Item("Wood ***", 0, iconsList[8]));
-        items.Add(new Item("Wood ****", 0, iconsList[9]));
-        items.Add(new Item("Wood *****", 0, iconsList[10]));
-        items.Add(new Item("Iron *", 0, iconsList[11]));
-        items.Add(new Item("Iron **", 0, iconsList[12]));
-        items.Add(new Item("Iron ***", 0, iconsList[13]));
-        items.Add(new Item("Iron ****", 0, iconsList[14]));
-        items.Add(new Item("Iron *****", 0, iconsList[15]));
-        items.Add(new Item("Wheat *", 0, iconsList[16]));
-        items.Add(new Item("Wheat **", 0, iconsList[17]));
-        items.Add(new Item("Wheat ***", 0, iconsList[18]));
-        items.Add(new Item("Wheat ****", 0, iconsList[19]));
-        items.Add(new Item("Wheat *****", 0, iconsList[20]));
+        itemList.Add(0, new Item("Gold", 10 ,0));
+        itemList.Add(1, new Item("Fish", 10, 1));
+        itemList.Add(2, new Item("Fish", 10, 2));
+        itemList.Add(3, new Item("Fish", 0, 3));
+        itemList.Add(4, new Item("Fish", 0, 4));
+        itemList.Add(5, new Item("Fish", 10, 5));
+        itemList.Add(6, new Item("Wood", 10, 1));
+        itemList.Add(7, new Item("Wood", 0, 2));
+        itemList.Add(8, new Item("Wood",10, 3));
+        itemList.Add(9, new Item("Wood", 0, 4));
+        itemList.Add(10, new Item("Wood", 10, 5));
+        itemList.Add(11, new Item("Iron", 0, 1));
+        itemList.Add(12, new Item("Iron", 10, 2));
+        itemList.Add(13, new Item("Iron", 0, 3));
+        itemList.Add(14, new Item("Iron", 0, 4));
+        itemList.Add(15, new Item("Iron", 0, 5));
+        itemList.Add(16, new Item("Wheat", 10, 1));
+        itemList.Add(17, new Item("Wheat", 0, 2));
+        itemList.Add(18, new Item("Wheat", 0, 3));
+        itemList.Add(19, new Item("Wheat", 10, 4));
+        itemList.Add(20, new Item("Wheat", 10, 5));
     }
 
     //add item
-    public static void AddItem(string name, int amount)
+    public void AddItem(int id, int amount)
     {
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (items[i].GetName() == name)
-            {
-                items[i].AddAmount(amount);
-            }
-        }
+        itemList[id].AddAmount(amount);
     }
 }

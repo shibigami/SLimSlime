@@ -9,9 +9,13 @@ public static class StoryProgressionManager
 
     //enemy progression
     private static int maxEnemyUnlock;
+    private static int difficulty;
 
     //time progression
     private static int currentTimeHours, totalElapsedTimeHours, elapsedTimeDays, elapsedTimeMonths, elapsedTimeYears;
+
+    //skill unlocking progression
+    public static Requirements currentRequirementProgress;
 
     public static void Initialize()
     {
@@ -20,9 +24,13 @@ public static class StoryProgressionManager
         mapSizeCurrent = mapSizeMaxUnlocked;
 
         maxEnemyUnlock = 6;
+        difficulty = Mathf.Clamp(10, 0, 10);
 
         currentTimeHours = 0;
         UpdateElapsedTime();
+
+        currentRequirementProgress = new Requirements();
+        currentRequirementProgress.FullInitialize();
     }
 
     //Map progression
@@ -52,6 +60,10 @@ public static class StoryProgressionManager
     public static int GetMaxEnemyUnlocked()
     {
         return maxEnemyUnlock;
+    }
+    public static int GetDifficulty()
+    {
+        return difficulty;
     }
 
     //time progression

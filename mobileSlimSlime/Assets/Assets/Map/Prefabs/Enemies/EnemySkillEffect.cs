@@ -143,7 +143,7 @@ public class EnemySkillEffect : MonoBehaviour
                     temp.SetAmount(amount);
                     temp.SetEffect(currentEffect);
                     temp.dotTimerTick = StoryProgressionManager.GetTimeHours()+7;
-                    temp.dotTimer = StoryProgressionManager.GetTimeHours();
+                    temp.dotTimer = StoryProgressionManager.GetTimeHours()+1;
                     break;
                 }
             case Effects.Burn:
@@ -152,7 +152,7 @@ public class EnemySkillEffect : MonoBehaviour
                     temp.SetAmount(amount);
                     temp.SetEffect(currentEffect);
                     temp.dotTimerTick = StoryProgressionManager.GetTimeHours() + 3;
-                    temp.dotTimer = StoryProgressionManager.GetTimeHours();
+                    temp.dotTimer = StoryProgressionManager.GetTimeHours()+1;
                     break;
                 }
             case Effects.Bleed:
@@ -161,7 +161,6 @@ public class EnemySkillEffect : MonoBehaviour
                     temp.SetAmount(amount);
                     temp.SetEffect(currentEffect);
                     temp.dotTimerTick = StoryProgressionManager.GetTimeHours() + 3;
-                    temp.dotTimer = StoryProgressionManager.GetTimeHours();
                     break;
                 }
             case Effects.Escape:
@@ -169,7 +168,7 @@ public class EnemySkillEffect : MonoBehaviour
                     var temp = GameObject.FindGameObjectWithTag("FightWindow").GetComponent<FightManager>().enemy.gameObject.AddComponent<EnemySkillEffect>();
                     temp.SetAmount(amount);
                     temp.SetEffect(currentEffect);
-                    temp.dotTimerTick = 1;
+                    temp.dotTimerTick = StoryProgressionManager.GetTimeHours()+1;
                     temp.dotTimer = StoryProgressionManager.GetTimeHours();
                     break;
                 }
@@ -206,16 +205,17 @@ public class EnemySkillEffect : MonoBehaviour
     private void Poison()
     {
         //timer
-        if ((dotTimerTick < StoryProgressionManager.GetTimeHours()) && (dotTimerTick >= dotTimer))
+        if ((dotTimerTick <= StoryProgressionManager.GetTimeHours()) && (dotTimer<=StoryProgressionManager.GetTimeHours()))
         {
-            gameObject.GetComponent<CharacterStats>().TakeDamage(amount, DictionaryHolder.element.Earth);
+            GameObject.FindGameObjectWithTag("FightWindow").GetComponent<FightManager>().WriteToInfoLabel(string.Format("<color=green>Poisoned</color>... <color=red>{0}</color>",
+            gameObject.GetComponent<CharacterStats>().TakeDamage(amount, DictionaryHolder.element.Earth)));
             dotTimer++;
         }
     }
     private void Burn()
     {
         //timer
-        if ((dotTimerTick < StoryProgressionManager.GetTimeHours())&& (dotTimerTick >= dotTimer))
+        if ((dotTimerTick < StoryProgressionManager.GetTimeHours())&& (dotTimer <= StoryProgressionManager.GetTimeHours()))
         {
             gameObject.GetComponent<CharacterStats>().TakeDamage(amount, DictionaryHolder.element.Fire);
             dotTimer++;
@@ -242,7 +242,7 @@ public class EnemySkillEffect : MonoBehaviour
         if (amount > 0)
         {
             gameObject.GetComponent<CharacterStats>().currentStats.ChangeStat(DictionaryHolder.statType.Res, element, amount);
-            amount = 0;
+            //amount = 0;
         }
     }
     private void DamageDown()
@@ -250,7 +250,7 @@ public class EnemySkillEffect : MonoBehaviour
         if (amount > 0)
         {
             gameObject.GetComponent<CharacterStats>().currentStats.ChangeStat(DictionaryHolder.statType.Damage, element, amount);
-            amount = 0;
+            //amount = 0;
         }
     }
     private void Escape()
@@ -261,7 +261,7 @@ public class EnemySkillEffect : MonoBehaviour
         }
         if (dotTimer < StoryProgressionManager.GetTimeHours())
         {
-            dotTimer++;
+            dotTimer= StoryProgressionManager.GetTimeHours();
         }
     }
     private void Exp()

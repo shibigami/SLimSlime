@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -20,7 +21,7 @@ public class FightManager : MonoBehaviour
     private List<CharacterSkill> skillQueue;
 
 
-    private enum FightFlow
+    public enum FightFlow
     {
         Start,
         ChooseElements,
@@ -76,12 +77,12 @@ public class FightManager : MonoBehaviour
 
         //set hp
         var temp = hpBar.GetComponent<RectTransform>();
-        temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (player.GetComponent<CharacterStats>().healthCurrent * hpBarMaxWidth) / player.GetComponent<CharacterStats>().currentStats.health);
+        temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Mathf.Clamp((player.GetComponent<CharacterStats>().healthCurrent * hpBarMaxWidth) / player.GetComponent<CharacterStats>().currentStats.health,0,100000));
         hpLabel.text = player.GetComponent<CharacterStats>().healthCurrent.ToString() + "/" + player.GetComponent<CharacterStats>().currentStats.health.ToString();
 
         //set sp - slime points
         temp = spBar.GetComponent<RectTransform>();
-        temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (player.GetComponent<CharacterStats>().slimeCurrent * spBarMaxWidth) / player.GetComponent<CharacterStats>().currentStats.slime);
+        temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Mathf.Clamp((player.GetComponent<CharacterStats>().slimeCurrent * spBarMaxWidth) / player.GetComponent<CharacterStats>().currentStats.slime,0, 100000));
         spLabel.text = player.GetComponent<CharacterStats>().slimeCurrent.ToString() + "/" + player.GetComponent<CharacterStats>().currentStats.slime.ToString();
 
         //error fixing
@@ -91,12 +92,12 @@ public class FightManager : MonoBehaviour
             {
                 //set enemy hp
                 temp = enemyHpBar.GetComponent<RectTransform>();
-                temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (enemy.GetHealth() * enemyHpBarMaxWidth) / enemy.GetHealthMax());
+                temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Mathf.Clamp((enemy.GetHealth() * enemyHpBarMaxWidth) / enemy.GetHealthMax(),0,100000));
                 enemyHpLabel.text = enemy.GetHealth().ToString() + "/" + enemy.GetHealthMax().ToString();
 
                 //set enemy sp - slime points
                 temp = enemySpBar.GetComponent<RectTransform>();
-                temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (enemy.GetSP() * spBarMaxWidth) / enemy.GetSPMax());
+                temp.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Mathf.Clamp((enemy.GetSP() * spBarMaxWidth) / enemy.GetSPMax(),0,100000));
                 enemySpLabel.text = enemy.GetSP().ToString() + "/" + enemy.GetSPMax().ToString();
             }
         }
@@ -127,7 +128,7 @@ public class FightManager : MonoBehaviour
                     enemyName.text = enemy.GetEnemyName();
 
                     //set element choice slots
-                    maxElementChoiceSlots = player.GetComponent<CharacterStats>().currentStats.elementSlots;
+                    maxElementChoiceSlots = Mathf.Clamp(player.GetComponent<CharacterStats>().currentStats.elementSlots,0,7);
 
                     //disable/enable elemental slots
                     for (int i = 0; i < elementChoiceSlots.Length; i++)
@@ -182,7 +183,7 @@ public class FightManager : MonoBehaviour
                     chooseElements = true;
 
                     //if at least one elements has been chosen
-                    if (elementChoicesCounter > 0)
+                    if (elementChoicesCounter >= maxElementChoiceSlots)
                     {
                         executeButton.SetActive(true);
                     }
@@ -253,6 +254,9 @@ public class FightManager : MonoBehaviour
                     //give exp
                     player.GetComponent<CharacterStats>().GainExp(enemy.GetExp());
 
+                    //add enemy to requirements
+                    StoryProgressionManager.currentRequirementProgress.ChangeRequirementValue(enemy.GetElement(), 1);
+
                     //end
                     fightState = FightFlow.End;
 
@@ -278,6 +282,9 @@ public class FightManager : MonoBehaviour
                         }
 
                         fightState = FightFlow.OutsideFight;
+
+                        //fade
+                        GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadePanel>().Fade(0.5f);
                     }
 
                     break;
@@ -446,11 +453,6 @@ public class FightManager : MonoBehaviour
         string attack = "";
         string stopString = "";
 
-        for (int i = 0; i < maxElementChoiceSlots; i++)
-        {
-            stopString += "0";
-        }
-
         //set attack pattern
         for (int i = 0; i < maxElementChoiceSlots; i++)
         {
@@ -510,7 +512,8 @@ public class FightManager : MonoBehaviour
                     //add the skill to the list of skills to use
                     skillQueue.Add(tempAvailableSkills[i]);
                     //takes the combo int out of the pattern string
-                    attack = attack.Replace(tempAvailableSkills[i].comboStr, "0");
+                    Regex regex = new Regex(tempAvailableSkills[i].comboStr);
+                    attack = regex.Replace(attack, "", 1);
 
                     if (attack == stopString)
                     {
@@ -591,5 +594,9 @@ public class FightManager : MonoBehaviour
     public void EnemyEscape()
     {
         fightState = FightFlow.End;
+    }
+    public FightFlow GetFightState()
+    {
+        return fightState;
     }
 }

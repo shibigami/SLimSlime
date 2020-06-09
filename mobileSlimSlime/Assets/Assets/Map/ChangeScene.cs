@@ -21,6 +21,8 @@ public class ChangeScene : MonoBehaviour
         if (GetComponent<Interact>().interacted)
         {
             SceneManager.LoadScene(sceneName);
+            //fade for load
+            GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadePanel>().Fade(1f);
         }   
     }
 }

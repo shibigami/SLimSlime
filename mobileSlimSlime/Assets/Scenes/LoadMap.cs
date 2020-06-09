@@ -9,7 +9,6 @@ public class LoadMap : MonoBehaviour
     private List<int> map;
     private List<string> doorLocations;
     public GameObject[] blocks;
-    public int difficulty;
     /*map legend:
      * 0    =   entrance   (this is put at -1*x automatically)
      * 1    =   farm
@@ -22,6 +21,7 @@ public class LoadMap : MonoBehaviour
      * 8    =   door   (add locations through doorlocations list for each door)
      * 9    =   wall   (these are put at the beginning and end of a stage automatically)
      * 10   =   SkillUpgradeStation
+     * 11   =   AlchemyStation
      * */
 
     // Start is called before the first frame update
@@ -29,7 +29,6 @@ public class LoadMap : MonoBehaviour
     {
         map = new List<int>();
         doorLocations = new List<string>();
-        difficulty = Mathf.Clamp(difficulty, 0, 10);
 
         switch (SceneManager.GetActiveScene().name)
         {
@@ -38,14 +37,14 @@ public class LoadMap : MonoBehaviour
             case "Home":
                 {
                     //sets hub list of blocks
-                    map = new List<int>() { 8, 10 };
+                    map = new List<int>() { 8, 10, 11 };
                     doorLocations.Clear();
                     doorLocations.Add("World");
                     break;
                 }
             case "World":
                 {
-                    map = CreateWorld(StoryProgressionManager.GetMapSize(), difficulty);
+                    map = CreateWorld(StoryProgressionManager.GetMapSize(), StoryProgressionManager.GetDifficulty());
                     break;
                 }
         }
@@ -74,7 +73,7 @@ public class LoadMap : MonoBehaviour
             else if ((tempObj.tag == "Boss") || (tempObj.tag == "Monster"))
            {
                 //handles monster spawns
-               EnemySpawn(tempObj,difficulty);
+               EnemySpawn(tempObj,StoryProgressionManager.GetDifficulty());
             }
         }
 
@@ -104,6 +103,9 @@ public class LoadMap : MonoBehaviour
         if ((GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>().actionPointsCurent <= 0) && (SceneManager.GetActiveScene().name != "Home"))
         {
             SceneManager.LoadScene("Home");
+
+            //fade
+            GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadePanel>().Fade(1f);
         }
         else if (SceneManager.GetActiveScene().name == "Home")
         {
@@ -145,7 +147,7 @@ public class LoadMap : MonoBehaviour
     private int GetMapInt(int difficulty)
     {
         int randomBlock = 0;
-        int difficultyRange = Random.Range(0,difficulty+1);
+        int difficultyRange = Mathf.Clamp(Random.Range(0,difficulty+1),0,10);
         //depending on the difficulty it'll get different ranges
         //the difficulty will start at the current difficulty level and decrease by one
         //each time grabbing a block within the difficulty ranges
